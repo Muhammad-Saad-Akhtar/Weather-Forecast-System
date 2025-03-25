@@ -1,0 +1,208 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+/* ✅ Global Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  color: #E0E0E0;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #1E1E2A, #121217);
+  transition: background 1s ease-in-out;
+}
+
+/* ✅ Weather Container */
+.weather-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ✅ Full-screen animated background */
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.85;
+}
+
+/* ✅ Glass effect for weather box */
+.content {
+  background: rgba(50, 50, 70, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 255, 255, 0.3);
+  width: 400px;
+  text-align: center;
+  transition: 0.3s ease-in-out;
+}
+
+.content:hover {
+  transform: scale(1.03);
+}
+
+/* ✅ Typewriter Effect for City Name */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.city-name {
+  font-size: 24px;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid cyan;
+  width: 0;
+  animation: typewriter 3s steps(20) forwards;
+}
+
+.city-name.lahore {
+  animation-delay: 1s;
+}
+
+/* ✅ Input and Button Styles */
+.input-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.city-input {
+  padding: 12px;
+  width: 70%;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: cyan;
+}
+
+/* ✅ Glowing & Pulsing Button Animation */
+@keyframes glow {
+  0% { box-shadow: 0 0 10px cyan; transform: scale(1); }
+  50% { box-shadow: 0 0 20px cyan; transform: scale(1.1); }
+  100% { box-shadow: 0 0 10px cyan; transform: scale(1); }
+}
+
+.weather-button {
+  padding: 12px 18px;
+  background: cyan;
+  color: #121217;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  animation: glow 1.5s infinite;
+}
+
+.weather-button:hover {
+  background: #00cccc;
+}
+
+/* ✅ Weather Info */
+.weather-info {
+  margin-top: 20px;
+}
+
+/* ✅ Fade-in Appearance for Weather Details */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.weather-details p {
+  margin: 5px 0;
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+  color: #00ffff;
+}
+
+.weather-details p:nth-child(1) { animation-delay: 0.5s; }
+.weather-details p:nth-child(2) { animation-delay: 1s; }
+.weather-details p:nth-child(3) { animation-delay: 1.5s; }
+.weather-details p:nth-child(4) { animation-delay: 2s; }
+.weather-details p:nth-child(5) { animation-delay: 2.5s; }
+
+/* ✅ Cursor Effect */
+@keyframes cursorGlow {
+  0%, 100% { box-shadow: 0 0 10px cyan; }
+  50% { box-shadow: 0 0 20px cyan; }
+}
+
+body {
+  cursor: none;
+}
+
+.cursor {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: cyan;
+  border-radius: 50%;
+  box-shadow: 0 0 15px cyan;
+  pointer-events: none;
+  animation: cursorGlow 1s infinite alternate;
+  transition: transform 0.1s ease-in-out;
+}
+
+/* ✅ Day/Night Mode Background Animation */
+@keyframes dayToNight {
+  from { background: linear-gradient(to bottom, #1E1E2A, #121217); }
+  to { background: linear-gradient(to bottom, #000814, #001d3d); }
+}
+
+@keyframes nightToDay {
+  from { background: linear-gradient(to bottom, #000814, #001d3d); }
+  to { background: linear-gradient(to bottom, #1E1E2A, #121217); }
+}
+
+.day-mode {
+  animation: nightToDay 2s ease-in-out forwards;
+}
+
+.night-mode {
+  animation: dayToNight 2s ease-in-out forwards;
+}
+
+/* 📌 Mobile Responsive */
+@media screen and (max-width: 480px) {
+  .content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .app-title {
+    font-size: 24px;
+  }
+
+  .city-input {
+    width: 65%;
+  }
+
+  .weather-button {
+    padding: 10px 15px;
+  }
+
+  .location {
+    font-size: 20px;
+  }
+
+  .weather-details {
+    font-size: 14px;
+  }
+}
