@@ -13,7 +13,8 @@ const WeatherApp = () => {
   const [loading, setLoading] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
-  const API_URL = "http://192.168.18.213:8000/weather?city=";
+  // Dynamically detect backend IP
+  const API_URL = `${window.location.protocol}//${window.location.hostname}:8000/weather?city=`;
 
   useEffect(() => {
     const moveCursor = (e) => {
@@ -28,8 +29,14 @@ const WeatherApp = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}${city}`);
+      const requestURL = `${API_URL}${encodeURIComponent(city)}`;
+      console.log("Fetching:", requestURL);
+
+      const response = await fetch(requestURL);
+      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
       const data = await response.json();
+      console.log("API Response:", data);
 
       if (data.detail) {
         alert("City not found! Please enter a valid city.");
@@ -39,6 +46,7 @@ const WeatherApp = () => {
       }
     } catch (error) {
       console.error("Error fetching weather data:", error);
+      alert("Failed to fetch weather data. Please check your backend connection.");
     }
 
     setLoading(false);
@@ -48,15 +56,12 @@ const WeatherApp = () => {
     if (!condition) return sunnyAnimation;
 
     const conditionText = condition.toLowerCase();
-
     if (conditionText.includes("thunder")) return thunderAnimation;
     if (conditionText.includes("rain") || conditionText.includes("drizzle")) return rainAnimation;
     if (conditionText.includes("snow") || conditionText.includes("sleet")) return snowAnimation;
 
     const currentHour = new Date().getHours();
-    const isNight = currentHour >= 19 || currentHour < 6;
-
-    return isNight ? nightAnimation : sunnyAnimation;
+    return currentHour >= 19 || currentHour < 6 ? nightAnimation : sunnyAnimation;
   };
 
   return (
@@ -64,10 +69,7 @@ const WeatherApp = () => {
       <div className="cursor-trail" style={{ left: cursorPos.x, top: cursorPos.y }}></div>
 
       {weatherData && (
-        <Lottie
-          animationData={getWeatherAnimation(weatherData.condition)}
-          className="background-animation"
-        />
+        <Lottie animationData={getWeatherAnimation(weatherData.condition)} className="background-animation" />
       )}
 
       <div className="content">
